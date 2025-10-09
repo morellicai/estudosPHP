@@ -1,22 +1,38 @@
-<html>
-<head>
-	<title>Gerenciador de Tarefas</title>
-</head>
-<body>
-	<h1>Gerenciador de Tarefas</h1>
-	<form>
-		<fieldset>
-			<legend>Nova Tarefa</legend>
-			<label>Tarefa:</label>
-			<input type="text" name="nome"/>
-			<input type="submit" value="Cadastrar"/>
-		</fieldset>
- </form>
-
 <?php
-    if (isset($_GET['nome'])) {
-        echo "Nome informado: " . $_GET['nome'];
-    }
+session_start();
+
+if (isset($_GET['nome']) && $_GET['nome'] != ''){
+	$tarefa = [];
+
+	$tarefa['nome'] = $_GET['nome'];
+
+	if(isset($_GET['descricao'])){
+		$tarefa['descricao'] = $_GET['descricao'];
+	}else{
+		$tarefa['descricao'] = '';
+	}
+
+	if(isset($_GET['prazo'])){
+		$tarefa['prazo'] = $_GET['prazo'];
+	}else{
+		$tarefa['prazo'] = '';
+	}
+	
+	$tarefa['prioridade'] = $_GET['prioridade'];
+
+	if(isset($_GET['concluida'])){
+		$tarefa['concluida'] = $_GET['concluida'];
+	}else{
+		$tarefa['concluida'] = '';
+	}
+	$_SESSION['lista_tarefas'][] = $tarefa;
+}
+
+if(isset($_SESSION['lista_tarefas'])){
+	$lista_tarefas = $_SESSION['lista_tarefas'];
+} else {
+	$lista_tarefas = [];
+}
+
+include "template.php";
 ?>
-</body>
-</html>
